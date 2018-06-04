@@ -12,4 +12,16 @@ class MTagihan extends CI_Model{
 	function pelanggan(){		
 		return $this->db->get('pelanggan');
 	}
+	private $table = "tagihan";
+    
+    function getProduk(){        
+        $query = $this->db->get($this->table);
+        return $query->result();
+    }
+    
+    function getProdukById($id){
+        $this->db->where('id',$id);
+        $query = $this->db->get($this->table);
+        return $query->result();
+    }
 }

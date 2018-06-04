@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2018 at 04:42 AM
+-- Generation Time: Jun 04, 2018 at 09:28 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -91,7 +91,62 @@ CREATE TABLE `deposit` (
 
 INSERT INTO `deposit` (`id_deposit`, `id_agen`, `tgl_requert`, `nominal`, `bank`, `status`) VALUES
 (17, 1, '2018-05-27 01:01:33', 50000, 'Mandiri (8123098120938 An. Bayar Listrik)', 'sukses'),
-(18, 1, '2018-05-27 01:01:39', 1000000, 'Mandiri (8123098120938 An. Bayar Listrik)', 'sukses');
+(18, 1, '2018-05-27 01:01:39', 1000000, 'Mandiri (8123098120938 An. Bayar Listrik)', 'sukses'),
+(19, 1, '2018-05-29 02:50:14', 50000, 'Mandiri (8123098120938 An. Bayar Listrik)', 'sedang diproses');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pelanggan`
+--
+
+CREATE TABLE `pelanggan` (
+  `id_pelanggan` int(50) NOT NULL,
+  `nama_pelanggan` varchar(100) NOT NULL,
+  `alamat` varchar(200) NOT NULL,
+  `daya_listrik` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `alamat`, `daya_listrik`) VALUES
+(1, 'pelanggan 1', 'alamat pelanggan 1', '900');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tagihan_listrik`
+--
+
+CREATE TABLE `tagihan_listrik` (
+  `id_tagihan` int(50) NOT NULL,
+  `id_pelanggan` int(50) NOT NULL,
+  `bulan` varchar(50) NOT NULL,
+  `jumlah_tagihan` int(100) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'belum dibayar'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tagihan_listrik`
+--
+
+INSERT INTO `tagihan_listrik` (`id_tagihan`, `id_pelanggan`, `bulan`, `jumlah_tagihan`, `status`) VALUES
+(1, 1, 'mei', 123987, 'belum dibayar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `id_transaksi` int(11) NOT NULL,
+  `id_tagihan` int(11) NOT NULL,
+  `id_agen` int(11) NOT NULL,
+  `tanggal_bayar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -116,6 +171,26 @@ ALTER TABLE `deposit`
   ADD PRIMARY KEY (`id_deposit`);
 
 --
+-- Indexes for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  ADD PRIMARY KEY (`id_pelanggan`);
+
+--
+-- Indexes for table `tagihan_listrik`
+--
+ALTER TABLE `tagihan_listrik`
+  ADD PRIMARY KEY (`id_tagihan`),
+  ADD KEY `id_pelanggan` (`id_pelanggan`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD KEY `id_agen` (`id_agen`),
+  ADD KEY `id_tagihan` (`id_tagihan`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -135,7 +210,36 @@ ALTER TABLE `agen`
 -- AUTO_INCREMENT for table `deposit`
 --
 ALTER TABLE `deposit`
-  MODIFY `id_deposit` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_deposit` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  MODIFY `id_pelanggan` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tagihan_listrik`
+--
+ALTER TABLE `tagihan_listrik`
+  MODIFY `id_tagihan` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tagihan_listrik`
+--
+ALTER TABLE `tagihan_listrik`
+  ADD CONSTRAINT `id_pelanggan` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `id_agen` FOREIGN KEY (`id_agen`) REFERENCES `agen` (`id_agen`),
+  ADD CONSTRAINT `id_tagihan` FOREIGN KEY (`id_tagihan`) REFERENCES `tagihan_listrik` (`id_tagihan`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
