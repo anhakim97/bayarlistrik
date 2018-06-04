@@ -35,17 +35,18 @@
         <h1 align="center">BayarListrik.Com</h1>
         <h2 align="center">Cek Tagihan Listrik Pascabayarmu !</h2>
   
-                <form action="<?php echo base_url(); ?>" method="post">
+                <form action="<?php echo base_url('cektagihan'); ?>" method="post">
             
                     <div class="form-group">
                     <label for="idpelanggan">  </label>
                         <input type="number" id="idpelanggan" class="form-control" name="username" placeholder="Tulis ID Pelanggan PLN">
                     </div>
                     <div class="login-button">
-                        <button class="btn btn-default" type="submit">Cek Tagihan</button>
+                        <input type="submit" class="btn btn-default" name="submit" >
                     </div>
             
                 </form><br><br>
+
       <h5>Mau jadi Agen pembayaran Listrik prabayar dan pascabayar ?</h5>
       <h6><a href="#">Klik Disini</a> Untuk Mendaftar</h6>
         </div>  <!-- right-box -->

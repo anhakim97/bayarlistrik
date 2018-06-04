@@ -57,12 +57,12 @@ class Agen extends CI_Controller{
 		$this->load->view('agen/footer'); 
 
 	}
-	function prabayar(){
+	function transaksi(){
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
 		$this->load->view('agen/header');
-		$this->load->view('agen/prabayar');
+		$this->load->view('agen/transaksi');
 		$this->load->view('agen/footer'); 
 	}
 	  
