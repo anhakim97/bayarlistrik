@@ -84,7 +84,18 @@ public function index(){
    // read raw data from request body
    
     function viewbyid_tagihan($id){
-        
+      $ci =&get_instance();
+      $result = $ci->Mtagihan->cekTagihan($id);
+
+      foreach($result as $row => $value){
+        $return_value[] = array(
+          'id_tagihan' => $value->id_tagihan,
+          'id_pelanggan' => $value->id_pelanggan,
+          'bulan' => $value->bulan,
+          'jumlah_tagihan' => $value->jumlah_tagihan,
+          'status' => $value->status);
+      }
+      return $return_value;
     }
  $this->nusoap_server->service(file_get_contents("php://input"));
 
