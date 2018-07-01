@@ -5,7 +5,7 @@ class MTagihan extends CI_Model{
     
     function cekTagihan($id_pelanggan){		
 	   $query = $this->db->query("SELECT * FROM tagihan_listrik WHERE id_pelanggan = $id_pelanggan")
-       return $query;
+       return $query->result();
     //	return $this->db->get_where('tagihan_listrik',$where);
 	}
 	 function cekPelanggan($where){		
