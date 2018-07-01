@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class MTagihan extends CI_Model{
     
     function cekTagihan($id_pelanggan){		
-	   $query = $this->db->query("SELECT * FROM tagihan_listrik WHERE id_pelanggan = $id_pelanggan")
+	   $query = $this->db->query("SELECT * FROM tagihan_listrik WHERE id_pelanggan = $id_pelanggan");
        return $query->result();
     //	return $this->db->get_where('tagihan_listrik',$where);
 	}
