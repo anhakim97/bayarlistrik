@@ -85,7 +85,7 @@ public function index(){
    
     function viewbyid_tagihan($id){
       $ci =&get_instance();
-      $result = $ci->Mtagihan->cekTagihan();
+      $result = $ci->Mtagihan->cekTagihan($id);
 
       foreach($result as $row => $value){
         $return_value[] = array(
