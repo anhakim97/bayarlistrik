@@ -71,7 +71,8 @@ class Bayarlistrik extends CI_Controller {
     }
     function cekpelanggan($id_pelanggan){
             $result = $this->MTagihan->cekPelanggan(array('id_pelanggan' => $id_pelanggan));
-            foreach($result as $row => $value){                 
+            foreach($result as $row => $value){
+            $return_value[] = array(                 
                     'id_pelanggan'=> $value->id_pelanggan,
                     'nama'=> $value->nama,
                     'alamat'=> $value->alamat
@@ -79,8 +80,9 @@ class Bayarlistrik extends CI_Controller {
                 return $return_value;
     }
     function pelanggan(){
-            $result = $this->MTagihan->pelanggan());
-            foreach($result as $row => $value){                 
+            $result = $this->MTagihan->pelanggan();
+            foreach($result as $row => $value){  
+            $return_value[] = array(               
                     'id_pelanggan'=> $value->id_pelanggan,
                     'nama'=> $value->nama,
                     'alamat'=> $value->alamat
