@@ -2,101 +2,93 @@
 
 if(! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Bayarlistrik extends CI_Controller {
+class bayarlistrik extends CI_Controller {
     
     public function __construct(){
         parent::__construct();
-        $this->load->model('Mtagihan');
-        $ns = 'http://'.$_SERVER['HTTP_HOST'].'bayarlistrik/server/index.php/bayarlistrik/';
-        $this->load->library("Nusoap_library"); 
+        //load M_produk model
+        $this->load->model(array('Mtagihan'));
+        $ns = 'http://'.$_SERVER['HTTP_HOST'].'/bayarlistrik/server/index.php/serversoap/';
+        // load nusoap toolkit library in controller
+        $this->load->library("Nusoap_library");  
+        // create soap server object
         $this->nusoap_server = new soap_server(); 
-        $this->nusoap_server->configureWSDL("Server SOAP BayarListik.com", $ns);
+        // wsdl configuration
+        $this->nusoap_server->configureWSDL("Membuat Server SOAP", $ns);
+        // server namespace
         $this->nusoap_server->wsdl->schemaTargetNamespace = $ns;
+        $this->nusoap_server->wsdl->addComplexType("kategoriData","complexType","struct","all","",
+    array(
+    "id_pelanggan"=>array("name"=>"id_pelanggan","type"=>"xsd:string"),
+    )
+  );
+        
+  $this->nusoap_server->wsdl->addComplexType("kategoriArray","complexType","array","","SOAP-ENC:Array",
+    array(),
+    array(
+      array(
+        "ref"=>"SOAP-ENC:arrayType",
+        "wsdl:arrayType"=>"tns:kategoriData[]"
+      )
+    ),
+    "kategoriData"
+  );
 
-          $this->nusoap_server->register('getTransaksi',
-                array('id_transaksi' => 'xsd:int', 'id_tagihan' => 'xsd:int'),
-                array('return' =>'xsd:string'),
-                $ns,
-                "urn:".$ns."getTransaksi",
-                "rpc",
-                "encoded",
-                "Melihat data transaksi"
-            );
+  //viewbyid pelanggan
+  $input_viewbyid_pelanggan = array('id_pelanggan' => "xsd:string");
+  $return_viewbyid_pelanggan = array("return" => "xsd:string");
+  $this->nusoap_server->register('viewbyid_pelanggan',
+    $input_viewbyid_pelanggan,
+    $return_viewbyid_pelanggan,
+    $ns,
+    "urn:".$ns."viewbyid",
+    "rpc",
+    "encoded",
+    "Melihat informasi pelanggan berdasarkan id");
+    //viewbyid tagihan
+  $input_viewbyid_tagihan = array('id_tagihan' => "xsd:string");
+  $return_viewbyid_tagihan = array("return" => "xsd:string");
+  $this->nusoap_server->register('viewbyid_tagihan',
+    $input_viewbyid_tagihan,
+    $return_viewbyid_tagihan,
+    $ns,
+    "urn:".$ns."viewbyid",
+    "rpc",
+    "encoded",
+    "Melihat informasi tagihan berdasarkan id");
 
-          $this->nusoap_server->register('cekTagihan',
-                array('id_tagihan' => 'xsd:int'),
-                array('return' =>'xsd:string'),
-                $ns,
-                "urn:".$ns."cekTagihan",
-                "rpc",
-                "encoded",
-                "Cek Tagihan "
-            );
-          $this->nusoap_server->register('cekPElanggan',
-                array('id_tagihan' => 'xsd:int'),
-                array('return' =>'xsd:string'),
-                $ns,
-                "urn:".$ns."cekPElanggan",
-                "rpc",
-                "encoded",
-                "Cek PElanggan "
-            );
-  
+//parameter pada fungsi penjumlahan berserta tipe datanya
+$input_array = array ('a' => "xsd:string", 'b' => "xsd:string"); 
+
+//nilai kembalian beserta tipe datanya
+$return_array = array ("hasil" => "xsd:string");
+
+$this->nusoap_server->register(
+    'produk',                          // method name
+    array('input' => 'xsd:string'),    // input parameters
+    array('output' => 'xsd:Array'),    // output parameters
+    'urn:SOAPServerWSDL',              // namespace
+    'urn:'.$ns.'produk',               // soapaction
+    'rpc',                             // style
+    'encoded',                         // use
+    'Daftar Produk'                    // documentation
+);
+
 
     }
-
-    public function index(){
-        function getTransaksi($id_transaksi, $id_tagihan){
-            $res = array(
-                'id_transaksi' => $id_transaksi,
-                'id_tagihan' => $id_tagihan,
-            );
-            $req = $id_transaksi + $id_tagihan;
-            return $req;
-            //return json_encode($res);
-
-        }
-
-        function cektagihan($id_pelanggan){
-            $result = $this->MTagihan->cekTagihan(array('id_pelanggan' => $id_pelanggan));
-            foreach($result as $row => $value){                 
-                $return_value[] = array(
-                    'id_tagihan'=> $value->id_tagihan,
-                    'id_pelanggan'=> $value->id_pelanggan,
-                    'bulan'=> $value->bulan,
-                    'jumlah_tagihan'=> $value->jumlah_tagihan,
-                    'status'=> $value->status
-                );
-                return $return_value;
+public function index(){
+   function penjumlahan($a,$b){
+       $c = $a + $b;
+       return $c;
+   }
+   // read raw data from request body
+   
+    function viewbyid_tagihan($id){
+        
     }
-    function cekpelanggan($id_pelanggan){
-            $result = $this->MTagihan->cekPelanggan(array('id_pelanggan' => $id_pelanggan));
-            foreach($result as $row => $value){
-            $return_value[] = array(                 
-                    'id_pelanggan'=> $value->id_pelanggan,
-                    'nama'=> $value->nama,
-                    'alamat'=> $value->alamat
-                );
-                return $return_value;
-    }
-    function pelanggan(){
-            $result = $this->MTagihan->pelanggan();
-            foreach($result as $row => $value){  
-            $return_value[] = array(               
-                    'id_pelanggan'=> $value->id_pelanggan,
-                    'nama'=> $value->nama,
-                    'alamat'=> $value->alamat
-                );
-                return $return_value;
-    }
-    
-    return $return_value;
-        }
+ $this->nusoap_server->service(file_get_contents("php://input"));
 
-
-     $this->nusoap_server->service(file_get_contents("php://input"));
-
-    }
+}
 
 
     }

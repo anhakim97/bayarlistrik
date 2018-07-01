@@ -83,8 +83,8 @@ public function index(){
    }
    // read raw data from request body
    
-   function produk() {
-echo "hai";
+    function viewbyid_tagihan($id){
+        
     }
  $this->nusoap_server->service(file_get_contents("php://input"));
 
