@@ -7,6 +7,9 @@ class MDeposit extends CI_Model {
   return $this->db->insert('deposit', $data);
  }
  function view_data($table,$where){		
+		return $this->db->get_where($table, $where);
+	}
+	function deposit_agen($table, $where ){
 		return $this->db->get_where($table,$where);
 	}
 	function hapus_data($where, $table){		

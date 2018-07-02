@@ -1,11 +1,14 @@
 <?php 
  
 class Agen extends CI_Controller{
- private $api_url = 'http://localhost/bayarlistrik/server/index.php/serversoap';
+ private $api_url = 'http://localhost/bayarlistrik/server/index.php/bayarlistrik'; 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_login');
+        $this->load->library("Nusoap_library");
+        $this->nusoap_client = new nusoap_client($this->api_url.'?wsdl', 'wsdl'); 		
+        $this->load->model('m_login');
 		$this->load->model('MDeposit');
+		$this->load->model('MAgen');
   		$this->load->helper('form');
 
 	}
@@ -13,8 +16,10 @@ class Agen extends CI_Controller{
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
+		$id_a = $this->session->userdata("id_agen");
+	    $x['jumlah_deposit'] = $this->MDeposit->view_data('agen', array('id_agen' => $id_a));
 		$this->load->view('agen/header');
-		$this->load->view('agen/index');
+		$this->load->view('agen/index', $x);
 		$this->load->view('agen/footer'); 
 	}
 	function login(){
@@ -48,12 +53,12 @@ class Agen extends CI_Controller{
     	}
   	}
 
-	function pascabayar(){
+	function prabayar(){
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
 		$this->load->view('agen/header');
-		$this->load->view('agen/pascabayar');
+		$this->load->view('agen/prabayar');
 		$this->load->view('agen/footer'); 
 
 	}
@@ -111,6 +116,91 @@ class Agen extends CI_Controller{
 	    $where = array('id_deposit' => $id);
 	    $this->MDeposit->hapus_data($where,'deposit');
 	    redirect('agen/deposit#collapse3');
+	}
+
+	function cekTagihan(){
+		$data[] = 0;
+        $post=$_POST;
+        $data['id_pelanggan'] = $post['idpelanggan'];
+        $data['id_agen'] = $this->session->userdata("id_agen");
+        $data['jumlah_deposit'] = $this->MDeposit->view_data('agen', array('id_agen' => $data['id_agen']));
+        if(!empty($post)){
+            // pengecekan error
+            $error = $this->nusoap_client->getError();
+            if ($error) {
+                $data['error'] = '<h2>Constructor error</h2><pre>' . $error . '</pre>';
+            }else{
+                $param = array('id_pelanggan' => $post['idpelanggan']);
+                $result = $this->nusoap_client->call('viewbyid_tagihan',$param);
+                       
+                if($this->nusoap_client->fault){
+                    $data['fault'] = '<h2>Fault (Expect - The request contains an invalid SOAP body)</h2><pre>'; print_r($result); echo '</pre>';
+                }else{
+                        $err = $this->nusoap_client->getError();
+                        if ($err) {
+                      		//echo '<h2>Error</h2><pre>' . $err . '</pre>';
+                       	}else{
+                      		if (!empty($result)) {
+                	               //echo "<pre>"; print_r($result); echo "</pre>";
+                                $data['result'] = $result;
+                                //echo $result;
+
+                            }else{
+                                    $data['nodata'] = 0;
+                            }
+                       	}
+                }
+            }
+        }
+    $this->load->view('agen/header');
+    $this->load->view('agen/prabayar', $data);
+    $this->load->view('agen/footer');
+	
+	}
+	function bayarlistrik(){
+		$data[] = 0;
+        $post=$_POST;
+        $id_agen = $this->session->userdata("id_agen");
+        $data['id_pelanggan'] = $post['id_pelanggan'];
+        $tagihan = $post['tagihan'];
+        $saldoSekarang = $post['saldo'] - $tagihan;
+    	$this->MAgen->updatesaldo($id_agen, $saldoSekarang);
+
+
+        $data['id_agen'] = $this->session->userdata("id_agen");
+        $data['jumlah_deposit'] = $this->MDeposit->view_data('agen', array('id_agen' => $data['id_agen']));
+        if(!empty($post)){
+            // pengecekan error
+            $error = $this->nusoap_client->getError();
+            if ($error) {
+                $data['error'] = '<h2>Constructor error</h2><pre>' . $error . '</pre>';
+            }else{
+                $param = array('id_pelanggan' => $post['id_pelanggan']);
+                $result = $this->nusoap_client->call('bayar_tagihan_listrik',$param);
+                       
+                if($this->nusoap_client->fault){
+                    $data['fault'] = '<h2>Fault (Expect - The request contains an invalid SOAP body)</h2><pre>'; print_r($result); echo '</pre>';
+                }else{
+                        $err = $this->nusoap_client->getError();
+                        if ($err) {
+                      		//echo '<h2>Error</h2><pre>' . $err . '</pre>';
+                       	}else{
+                      		if (!empty($result)) {
+                	               //echo "<pre>"; print_r($result); echo "</pre>";
+                                $data['bayarlistrik'] = $result;
+                                //echo $result;
+
+                            }else{
+                                    echo "Tidak Ada Tagihan";
+                            }
+                       	}
+                }
+            }
+        }
+    $this->load->view('agen/header');
+    $this->load->view('agen/prabayar', $data);
+    $this->load->view('agen/footer');
+		
 	}
 }
 ?>

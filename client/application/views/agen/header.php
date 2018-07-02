@@ -69,10 +69,7 @@
                             <a href="<?php echo base_url('agen/index'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('agen/pascabayar'); ?>"><i class="fa fa-dashboard fa-fw"></i> Pembayaran Listrik Prabayar</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url('agen/prabayar'); ?>"><i class="fa fa-dashboard fa-fw"></i> Beli Voucher Listrik(prabayar)</a>
+                            <a href="<?php echo base_url('agen/prabayar'); ?>"><i class="fa fa-dashboard fa-fw"></i> Pembayaran Listrik </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('agen/deposit'); ?>"><i class="fa fa-dashboard fa-fw"></i> Deposit</a>

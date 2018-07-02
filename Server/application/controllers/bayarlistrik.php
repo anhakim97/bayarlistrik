@@ -18,89 +18,81 @@ class bayarlistrik extends CI_Controller {
         // server namespace
         $this->nusoap_server->wsdl->schemaTargetNamespace = $ns;
         $this->nusoap_server->wsdl->addComplexType("kategoriData","complexType","struct","all","",
-    array(
-    "id_pelanggan"=>array("name"=>"id_pelanggan","type"=>"xsd:string"),
-    )
-  );
-        
-  $this->nusoap_server->wsdl->addComplexType("kategoriArray","complexType","array","","SOAP-ENC:Array",
-    array(),
-    array(
-      array(
-        "ref"=>"SOAP-ENC:arrayType",
-        "wsdl:arrayType"=>"tns:kategoriData[]"
-      )
-    ),
-    "kategoriData"
-  );
-
-  //viewbyid pelanggan
-  $input_viewbyid_pelanggan = array('id_pelanggan' => "xsd:string");
-  $return_viewbyid_pelanggan = array("return" => "xsd:string");
-  $this->nusoap_server->register('viewbyid_pelanggan',
-    $input_viewbyid_pelanggan,
-    $return_viewbyid_pelanggan,
-    $ns,
-    "urn:".$ns."viewbyid",
-    "rpc",
-    "encoded",
-    "Melihat informasi pelanggan berdasarkan id");
-    //viewbyid tagihan
-  $input_viewbyid_tagihan = array('id_tagihan' => "xsd:string");
-  $return_viewbyid_tagihan = array("return" => "xsd:string");
-  $this->nusoap_server->register('viewbyid_tagihan',
-    $input_viewbyid_tagihan,
-    $return_viewbyid_tagihan,
-    $ns,
-    "urn:".$ns."viewbyid",
-    "rpc",
-    "encoded",
-    "Melihat informasi tagihan berdasarkan id");
-
-//parameter pada fungsi penjumlahan berserta tipe datanya
-$input_array = array ('a' => "xsd:string", 'b' => "xsd:string"); 
-
-//nilai kembalian beserta tipe datanya
-$return_array = array ("hasil" => "xsd:string");
-
-$this->nusoap_server->register(
-    'produk',                          // method name
-    array('input' => 'xsd:string'),    // input parameters
-    array('output' => 'xsd:Array'),    // output parameters
-    'urn:SOAPServerWSDL',              // namespace
-    'urn:'.$ns.'produk',               // soapaction
-    'rpc',                             // style
-    'encoded',                         // use
-    'Daftar Produk'                    // documentation
-);
+                    array(
+                    "id_pelanggan"=>array("name"=>"id_pelanggan","type"=>"xsd:string"),
+                    )
+                  );
+        $this->nusoap_server->wsdl->addComplexType("kategoriArray","complexType","array","","SOAP-ENC:Array",
+          array(),
+          array(
+            array(
+              "ref"=>"SOAP-ENC:arrayType",
+              "wsdl:arrayType"=>"tns:kategoriData[]"
+            )
+          ),
+          "kategoriData"
+        );
 
 
-    }
-public function index(){
-   function penjumlahan($a,$b){
+          //viewbyid tagihan
+        $input_viewbyid_tagihan = array('id_pelanggan' => 'xsd:string');
+        $return_viewbyid_tagihan = array('hasil' => 'xsd:Array');
+        $this->nusoap_server->register(
+          'viewbyid_tagihan',
+          $input_viewbyid_tagihan,
+          $return_viewbyid_tagihan,
+          $ns,
+          "urn:".$ns."viewbyid_tagihan",
+          "rpc",
+          "encoded",
+          "Melihat informasi tagihan berdasarkan id");
+    
+    //bayar_tagihan_listrik
+        $input_bayar_tagihan_listrik = array('id_pelanggan' => 'xsd:string');
+        $return_bayar_tagihan_listrik = array('hasil' => 'xsd:string');
+        $this->nusoap_server->register(
+          'bayar_tagihan_listrik',
+          $input_bayar_tagihan_listrik,
+          $return_bayar_tagihan_listrik,
+          $ns,
+          "urn:".$ns."bayar_tagihan_listrik",
+          "rpc",
+          "encoded",
+          "operasi update data + bayar listrik pelanggan");
+
+     }
+   public function index(){
+
+       function penjumlahan($a,$b){
        $c = $a + $b;
        return $c;
-   }
-   // read raw data from request body
-   
-    function viewbyid_tagihan($id){
-      $ci =&get_instance();
-      $result = $ci->Mtagihan->cekTagihan($id);
-
-      foreach($result as $row => $value){
-        $return_value[] = array(
-          'id_tagihan' => $value->id_tagihan,
-          'id_pelanggan' => $value->id_pelanggan,
-          'bulan' => $value->bulan,
-          'jumlah_tagihan' => $value->jumlah_tagihan,
-          'status' => $value->status);
       }
-      return $return_value;
-    }
- $this->nusoap_server->service(file_get_contents("php://input"));
+      function viewbyid_tagihan($id){
+        $ci =&get_instance();
+        $result = $ci->Mtagihan->cekTagihan($id);
+
+        foreach($result as $row => $value){
+          $return_value[] = array(
+            'id_tagihan' => $value->id_tagihan,
+            'id_pelanggan' => $value->id_pelanggan,
+            'bulan' => $value->bulan,
+            'jumlah_tagihan' => $value->jumlah_tagihan,
+            'status' => $value->status,
+            'nama_pelanggan' => $value->nama_pelanggan,
+            'alamat' => $value->alamat,
+            'daya_listrik' => $value->daya_listrik
+          );
+        }
+        return $return_value;
+      }
+
+      function bayar_tagihan_listrik($id){
+        $ci =&get_instance();
+        $result = $ci->Mtagihan->bayarTagihan($id);
+        return $return_value = "sukses";
+      }
+    $this->nusoap_server->service(file_get_contents("php://input"));
 
 }
-
-
-    }
+}
 ?>

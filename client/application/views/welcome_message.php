@@ -1,6 +1,6 @@
 <html>
 <head>
- <title>Halaman login</title>
+ <title>Home</title>
  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -34,12 +34,11 @@
         <div class="col-lg-12 right-box">
         <h1 align="center">BayarListrik.Com</h1>
         <h2 align="center">Cek Tagihan Listrik Pascabayarmu !</h2>
-  
-                <form action="<?php echo base_url('cektagihan'); ?>" method="post">
+                <form action="<?php echo base_url(); ?>cektagihan" method="post">
             
                     <div class="form-group">
                     <label for="idpelanggan">  </label>
-                        <input type="number" id="idpelanggan" class="form-control" name="username" placeholder="Tulis ID Pelanggan PLN">
+                        <input type="number" id="idpelanggan" class="form-control" name="idpelanggan" placeholder="Tulis ID Pelanggan PLN">
                     </div>
                     <div class="login-button">
                         <input type="submit" class="btn btn-default" name="submit" >
