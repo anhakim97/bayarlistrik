@@ -38,7 +38,7 @@ if(!$db){
               <div class="form-group">
                 <label for="sel1">Daya Listrik:</label>
                 <select class="form-control" id="sel1" name="daya_listrik">
-                  <option value="450">450 VA</option>
+                  <option value="450">450 VA </option>
                   <option value="900">900 VA</option>
                   <option value="1300">1300 VA</option>
                   <option value="2200">2200 VA</option>
