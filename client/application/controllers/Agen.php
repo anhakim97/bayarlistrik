@@ -9,6 +9,7 @@ class Agen extends CI_Controller{
         $this->load->model('m_login');
 		$this->load->model('MDeposit');
 		$this->load->model('MAgen');
+		$this->load->model('MTransaksi');
   		$this->load->helper('form');
 
 	}
@@ -53,12 +54,15 @@ class Agen extends CI_Controller{
     	}
   	}
 
-	function prabayar(){
+	function pascabayar(){
+
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
+		$id_agen = $this->session->userdata("id_agen");
+		$data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
 		$this->load->view('agen/header');
-		$this->load->view('agen/prabayar');
+		$this->load->view('agen/pascabayar', $data);
 		$this->load->view('agen/footer'); 
 
 	}
@@ -152,8 +156,10 @@ class Agen extends CI_Controller{
                 }
             }
         }
+        $id_agen = $this->session->userdata("id_agen");
+        $data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
     $this->load->view('agen/header');
-    $this->load->view('agen/prabayar', $data);
+    $this->load->view('agen/pascabayar', $data);
     $this->load->view('agen/footer');
 	
 	}
@@ -163,8 +169,13 @@ class Agen extends CI_Controller{
         $id_agen = $this->session->userdata("id_agen");
         $data['id_pelanggan'] = $post['id_pelanggan'];
         $tagihan = $post['tagihan'];
+        $id_tagihan = $post['id_tagihan'];
         $saldoSekarang = $post['saldo'] - $tagihan;
-    	$this->MAgen->updatesaldo($id_agen, $saldoSekarang);
+    	$param = array('id_pelanggan' => $post['id_pelanggan']);
+		$keterangan = $this->nusoap_client->call('viewbyid_tagihan',$param); 
+		$ket = serialize($keterangan); 	
+    	$transaksi = array('id_tagihan' => $id_tagihan, 'id_agen' => $id_agen, 'keterangan' => $ket);
+    	
 
 
         $data['id_agen'] = $this->session->userdata("id_agen");
@@ -188,6 +199,8 @@ class Agen extends CI_Controller{
                       		if (!empty($result)) {
                 	               //echo "<pre>"; print_r($result); echo "</pre>";
                                 $data['bayarlistrik'] = $result;
+                                $this->MAgen->updatesaldo($id_agen, $saldoSekarang);
+                                $this->MTransaksi->transaksi($transaksi);
                                 //echo $result;
 
                             }else{
@@ -197,8 +210,10 @@ class Agen extends CI_Controller{
                 }
             }
         }
+        $id_agen = $this->session->userdata("id_agen");
+        $data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
     $this->load->view('agen/header');
-    $this->load->view('agen/prabayar', $data);
+    $this->load->view('agen/pascabayar', $data);
     $this->load->view('agen/footer');
 		
 	}

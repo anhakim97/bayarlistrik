@@ -39,6 +39,7 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
@@ -69,7 +70,7 @@
                             <a href="<?php echo base_url('agen/index'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('agen/prabayar'); ?>"><i class="fa fa-dashboard fa-fw"></i> Pembayaran Listrik </a>
+                            <a href="<?php echo base_url('agen/pascabayar'); ?>"><i class="fa fa-dashboard fa-fw"></i> Pembayaran Listrik </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('agen/deposit'); ?>"><i class="fa fa-dashboard fa-fw"></i> Deposit</a>
