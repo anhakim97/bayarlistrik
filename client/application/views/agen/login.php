@@ -33,7 +33,7 @@
         
         <div class="col-lg-6 left-box">
             <h1>BayarListrik.Com</h1>
-            <p>Layanan Pembayaran Listrik Prabayar dan Pascabayar</p>
+            <p>Layanan Pembayaran Listrik </p>
             <br>
             <h2>Ingin menjadi Mitra kami?</h2>
             <h3>Silahkan <a href="<?php echo base_url('daftar'); ?>">Klik disini</a> untuk mendaftar</h3>

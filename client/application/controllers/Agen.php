@@ -13,18 +13,25 @@ class Agen extends CI_Controller{
   		$this->load->helper('form');
 
 	}
+	
 	function index(){
+		$header['title'] = "Dasboard";
+		$header['data_agen'] = $this->MAgen->view_all();
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
 		$id_a = $this->session->userdata("id_agen");
 	    $x['jumlah_deposit'] = $this->MDeposit->view_data('agen', array('id_agen' => $id_a));
-		$this->load->view('agen/header');
+	    $x['jumlah_transaksi'] = $this->MTransaksi->view_all(array('id_agen' => $id_a))->num_rows();
+		$this->load->view('agen/header', $header);
 		$this->load->view('agen/index', $x);
 		$this->load->view('agen/footer'); 
 	}
 	function login(){
     	$this->load->view('agen/login');
+    		if($this->session->userdata('status') == "login"){
+			redirect(base_url("agen/index"));
+		}
   	}
 
   	function aksi_login(){
@@ -49,19 +56,20 @@ class Agen extends CI_Controller{
 	      redirect(base_url("agen/index"));
 
     	}else{
-      	echo "Username dan password salah !<br>";
-     // echo "<a href='".base_url()."agen/login'> login lagi </a>";
+      	echo "Username dan password salah !";
+      echo "<a href='".base_url()."agen/login'> login lagi </a>";
     	}
   	}
 
 	function pascabayar(){
-
+		$header['title'] = "Pembayaran";
+		$header['data_agen'] = $this->MAgen->view_all();
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
 		$id_agen = $this->session->userdata("id_agen");
 		$data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
-		$this->load->view('agen/header');
+		$this->load->view('agen/header', $header);
 		$this->load->view('agen/pascabayar', $data);
 		$this->load->view('agen/footer'); 
 
@@ -70,7 +78,7 @@ class Agen extends CI_Controller{
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
-		$this->load->view('agen/header');
+		$this->load->view('agen/header', $header);
 		$this->load->view('agen/transaksi');
 		$this->load->view('agen/footer'); 
 	}
@@ -80,6 +88,8 @@ class Agen extends CI_Controller{
     	redirect(base_url('agen/login'));
   	}
   	public function deposit(){
+  		$header['title'] = "Deposit";
+		$header['data_agen'] = $this->MAgen->view_all();
   		if($this->session->userdata('status') != "login"){
 			redirect(base_url("agen/login"));
 		}
@@ -105,7 +115,7 @@ class Agen extends CI_Controller{
 	             $id_a = $this->session->userdata("id_agen");
 	             $x['depositproses'] = $this->MDeposit->view_data('deposit', array('id_agen' => $id_a, 'status' => "sedang diproses"));
 	             $x['depositsukses'] = $this->MDeposit->view_data('deposit', array('id_agen' => $id_a, 'status' => "sukses"));
-	             $this->load->view('agen/header');
+	             $this->load->view('agen/header', $header);
 				       $this->load->view('agen/deposit', $x);
 				       $this->load->view('agen/footer');
 				       if($this->session->userdata('status') != "login"){
@@ -123,6 +133,8 @@ class Agen extends CI_Controller{
 	}
 
 	function cekTagihan(){
+		$header['title'] = "pembayaran";
+		$header['data_agen'] = $this->MAgen->view_all();
 		$data[] = 0;
         $post=$_POST;
         $data['id_pelanggan'] = $post['idpelanggan'];
@@ -158,12 +170,14 @@ class Agen extends CI_Controller{
         }
         $id_agen = $this->session->userdata("id_agen");
         $data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
-    $this->load->view('agen/header');
+    $this->load->view('agen/header', $header);
     $this->load->view('agen/pascabayar', $data);
     $this->load->view('agen/footer');
 	
 	}
 	function bayarlistrik(){
+		$header['title'] = "Halaman pembayaran";
+		$header['data_agen'] = $this->MAgen->view_all();
 		$data[] = 0;
         $post=$_POST;
         $id_agen = $this->session->userdata("id_agen");
@@ -212,7 +226,7 @@ class Agen extends CI_Controller{
         }
         $id_agen = $this->session->userdata("id_agen");
         $data['transaksi_all'] = $this->MTransaksi->view_all(array('id_agen' => $id_agen));
-    $this->load->view('agen/header');
+    $this->load->view('agen/header', $header);
     $this->load->view('agen/pascabayar', $data);
     $this->load->view('agen/footer');
 		

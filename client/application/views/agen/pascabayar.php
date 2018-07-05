@@ -79,9 +79,8 @@
                                     $saldo = $row['saldo'];
                                     $cek = $saldo - $tagihan;
                                     if ($cek <=0) {
-											echo "Saldo Tidak Cukup";
+											echo "Saldo Tidak Cukup silahkan isi deposit";
 											?>
-											<br><a href="deposit"><button class="btn btn-danger">Isi Deposit</button></a>
 											<?php
 										}else{
 											if ($status=="sudah dibayar") {
@@ -239,6 +238,7 @@
 					      </div>
 					    </div>
 					  </div>
+					  <!--
 					  <div class="panel panel-default">
 					    <div class="panel-heading">
 					      <h4 class="panel-title">
@@ -254,6 +254,7 @@
 					    </div>
 					  </div>
 					</div>
+					-->
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

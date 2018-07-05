@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="deposit">
                             <div class="panel-footer">
                                 <span class="pull-left">Deposit Baru</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -43,12 +43,14 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
+                                    <div class="huge">
+                                        <?php echo $jumlah_transaksi; ?>
+                                    </div>
                                     <div>Transaksimu</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="pascabayar#collapse2">
                             <div class="panel-footer">
                                 <span class="pull-left">Lihat Transaksi Pembayaran</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

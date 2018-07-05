@@ -13,7 +13,7 @@
     <div class="col-lg-8 col-lg-offset-2 login-box" >
 
         <div class="col-lg-12 right-box">
-        <h1 align="center">BayarListrik.Com</h1>
+        <h1 align="center"><a href="<?php echo base_url(); ?>">BayarListrik.Com</a></h1>
         <h2 align="center">Informasi Tagihan</h2>
 				<?php 
 				if(!empty($result)){ 
@@ -46,13 +46,16 @@
 							</tr>
 							<tr>
 								<td><strong>Status  </strong></td>
-								<td> : <?=$row['status'];?></td>
+								<td> : <?=$row['status'];?> <?php if($row['status']=="sudah dibayar"){
+                                    echo "Pada ".$row['tanggal_bayar'];
+                                } ?></td>
 							</tr>
 						</table><br><br><br>
 
 							<?php
 					};
 					?>
+                    <p align="center"><a href="<?php echo base_url(); ?>">Kembali ke halaman utama</a></p>
 					<?php
 					}else{
 						echo "<br><br>Data Tidak Ditemukan<br>Back To <a href='".base_url()."' > Home </a>";
@@ -60,7 +63,7 @@
 					}
 					?>
 
-      <h5>Mau jadi Agen pembayaran Listrik prabayar dan pascabayar ?</h5>
+      <h5>Mau jadi Agen pembayaran Listrik  ?</h5>
       <h6><a href="<?php echo base_url(); ?>daftar">Klik Disini</a> Untuk Mendaftar</h6>
         </div>  <!-- right-box -->
       <p align="center"> <a href="<?php echo base_url(); ?>">Home</a>   |   <a href="<?php echo base_url(); ?>tentang">Tentang Kami</a>    |    <a href="<?php echo base_url(); ?>kontak">Kontak</a>     |   <a href="<?php echo base_url(); ?>daftar">daftar</a>   | <a href="<?php echo base_url(); ?>agen/login">login</a> <br>Layanan Web Kelompok 2</p>

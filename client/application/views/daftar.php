@@ -1,6 +1,6 @@
 <html>
 <head>
- <title>Halaman login</title>
+ <title>Halaman pendaftaran</title>
  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -14,7 +14,7 @@
 
         <div class="col-lg-12 right-box">
         <h1 align="center">BayarListrik.Com</h1>
-        <h4 align="center">Form Pendaftaran Agen Pembayaran Listrik Prabayar dan PascaBayar</h4>
+        <h4 align="center">Form Pendaftaran Agen Pembayaran Listrik </h4>
             <form action="<?php echo base_url('daftar'); ?>" method="post">
                <div class="form-group">
                         <input type="text" id="nama" class="form-control" name="nama" required placeholder="Tulis Nama Lengkap">
@@ -29,8 +29,8 @@
                 </form>
 
                 <br>
-      <h5>Mau jadi Agen pembayaran Listrik prabayar dan pascabayar ?</h5>
-      <h6><a href="#">Klik Disini</a> Untuk Mendaftar</h6>
+      <h5>sudah mempunyai akun ?</h5>
+      <h6><a href="<?php echo base_url(); ?>agen/login">Klik Disini</a> Untuk login</h6>
         </div>  <!-- right-box -->
       <p align="center"> <a href="<?php echo base_url(); ?>">Home</a>   |   <a href="<?php echo base_url(); ?>tentang">Tentang Kami</a>    |    <a href="<?php echo base_url(); ?>kontak">Kontak</a>     |   <a href="<?php echo base_url(); ?>daftar">daftar</a>   | <a href="<?php echo base_url(); ?>agen/login">login</a> <br>Layanan Web Kelompok 2</p>
     </div> <!--col-lg-8-->

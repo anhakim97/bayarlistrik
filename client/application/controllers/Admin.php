@@ -83,6 +83,7 @@ class Admin extends CI_Controller{
   	$saldoAwal = $saldo->saldo;
   	$saldoSekarang = $saldoAwal + $deposit; 
     $this->MAgen->updatesaldo($id_agen, $saldoSekarang, $id);
+    $this->MDeposit->updatestatus($id);
     redirect('admin/deposit#collapse3');
     
   }

@@ -13,7 +13,10 @@ class MTagihan extends CI_Model{
 	 }
 
      function bayarTagihan($id){
+        date_default_timezone_set("Asia/Bangkok");
+        $data= date("H:i:s d-m-Y");
     $this->db->set('status', "sudah dibayar");
+    $this->db->set('tanggal_bayar', $data);
     $this->db->where('id_pelanggan', $id);
     $this->db->update('tagihan_listrik');
      }

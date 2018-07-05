@@ -46,8 +46,8 @@
             
                 </form><br><br>
 
-      <h5>Mau jadi Agen pembayaran Listrik prabayar dan pascabayar ?</h5>
-      <h6><a href="#">Klik Disini</a> Untuk Mendaftar</h6>
+      <h5>Mau jadi Agen pembayaran Listrik  ?</h5>
+      <h6><a href="<?php echo base_url(); ?>daftar">Klik Disini</a> Untuk Mendaftar</h6>
         </div>  <!-- right-box -->
       <p align="center"> <a href="<?php echo base_url(); ?>">Home</a>   |   <a href="<?php echo base_url(); ?>tentang">Tentang Kami</a>    |    <a href="<?php echo base_url(); ?>kontak">Kontak</a>     |   <a href="<?php echo base_url(); ?>daftar">daftar</a>   | <a href="<?php echo base_url(); ?>agen/login">login</a> <br>Layanan Web Kelompok 2</p>
     </div> <!--col-lg-8-->

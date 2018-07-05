@@ -80,7 +80,8 @@ class bayarlistrik extends CI_Controller {
             'status' => $value->status,
             'nama_pelanggan' => $value->nama_pelanggan,
             'alamat' => $value->alamat,
-            'daya_listrik' => $value->daya_listrik
+            'daya_listrik' => $value->daya_listrik,
+            'tanggal_bayar' => $value->tanggal_bayar
           );
         }
         return $return_value;
