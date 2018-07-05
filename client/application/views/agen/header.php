@@ -38,7 +38,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user">
+                    <ul class="dropdown-menu dropdown-user">    
                         <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
@@ -94,6 +94,7 @@
         </div>
         <div class="modal-body">
                                                   <?php  foreach ($data_agen->result_array() as $row) {
+                                                    if($row['nama']==$this->session->userdata("nama")){
                                             ?>
                         <form action="<?php echo base_url('agen/updateprofil'); ?>" method="post">
                             <div class="form-group">
@@ -111,6 +112,7 @@
                             <!--<input type="submit" id="submit" class="btn btn-default " name="submit" value="Submit" onclick="alert('Data Berhasil diupdate')">-->
                           </form>
                                             <?php
+                                            }
                                             } ?>
         </div>
         <div class="modal-footer">
